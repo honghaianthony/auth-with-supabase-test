@@ -50,27 +50,32 @@ const Home: NextPage = () => {
                     <Navbar.Link href="#">Pricing</Navbar.Link>
                     <Navbar.Link href="#">Company</Navbar.Link>
                 </Navbar.Content>
-                <Navbar.Content>
-                    <Navbar.Link color="inherit" href="/login">
-                        Login
-                    </Navbar.Link>
-                    <Navbar.Item>
-                        <Button auto flat as={Link} href="#">
-                            Sign Up
+                {user ? (
+                    <>
+                        <Button
+                            onClick={() => {
+                                supabaseClient.auth.signOut();
+                                handleSubmit;
+                            }}
+                        >
+                            Sign out
                         </Button>
-                    </Navbar.Item>
-                </Navbar.Content>
+                    </>
+                ) : (
+                    <Navbar.Content>
+                        <Navbar.Link color="inherit" href="/login">
+                            Login
+                        </Navbar.Link>
+                        <Navbar.Item>
+                            <Button auto flat as={Link} href="#">
+                                Sign Up
+                            </Button>
+                        </Navbar.Item>
+                    </Navbar.Content>
+                )}
             </Navbar>
             {user ? (
                 <>
-                    <button
-                        onClick={() => {
-                            supabaseClient.auth.signOut();
-                            handleSubmit;
-                        }}
-                    >
-                        Sign out
-                    </button>
                     <p>user:</p>
                     <pre>{JSON.stringify(user, null, 2)}</pre>
                     <p>client-side data fetching with RLS</p>
